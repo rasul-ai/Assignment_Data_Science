@@ -46,6 +46,7 @@ print(df.duplicated().sum())
 
 ## Section 3: Data Cleaning and Imputation
 This section handles missing values in the dataset. It imputes missing values in categorical columns with the mode and performs custom parsing and averaging for specific numerical columns. Additionally, it drops rows with missing values in specific columns.
+
 ```
 # Impute missing values with the mode of each categorical column
 categorical_columns = ['Do you use University transportation?', 'What is your preferable learning mode?']
@@ -56,6 +57,70 @@ column = ['How many hour do you study daily?', 'How many hour do you spent daily
           'Average attendance on class', 'How many hour do you spent daily on your skill development?']
 
 def parse_and_average(value):
-    
+    # Custom function to parse and average numeric values in a string
+    # ...
+
+for column_name in column:
+    df[column_name] = df[column_name].apply(parse_and_average)
+    # Replace remaining non-numeric or null values or 0 with the mean
+    mean_value = df[column_name].mean()
+    df[column_name].fillna(mean_value, inplace=True)
+    df[column_name].replace(0, mean_value, inplace=True)
+
+# Drop rows with missing values in specific columns
+df = df.dropna(subset=['Are you engaged with any co-curriculum activities?', 'What was your previous SGPA?', 'Age',\
+                       'What is your current CGPA?', 'How many Credit did you have completed?',\
+                       'What is your monthly family income?', 'Are you engaged with any co-curriculum activities?',\
+                       'How many hour do you spent daily on your skill development?', 'What is you interested area?',\
+                       'What are the skills do you have ?', 'How many hour do you spent daily in social media?'])
 ```
 
+## Section 4: Feature Engineering
+In this section, new columns are created based on specific conditions. The 'target' column is created to categorize students into different performance levels (Excellent, Good, Average, Poor).
+```
+import numpy as np
+
+excellent_condition = (df['How many hour do you study daily?'] >= 3.0) & (df['What is your current CGPA?'] >= 3.75) & \
+                      (df['What was your previous SGPA?'] >= 3.20) & (df['Average attendance on class'] >= 90.0) & \
+                      (df['How many hour do you spent daily in social media?'] <= 3.0)
+
+good_condition = (df['How many hour do you study daily?'] >= 2.0) & (df['What is your current CGPA?'] >= 3.20) & \
+                 (df['What was your previous SGPA?'] >= 2.90) & (df['Average attendance on class'] >= 85.0) & \
+                 (df['How many hour do you spent daily in social media?'] <= 4.0)
+
+average_condition = (df['How many hour do you study daily?'] >= 1.0) & (df['What is your current CGPA?'] >= 2.80) & \
+                    (df['What was your previous SGPA?'] >= 2.50) & (df['Average attendance on class'] >= 75.0) & \
+                    (df['How many hour do you spent daily in social media?'] <= 5.0)
+
+# Create the 'target' column based on conditions
+df['target'] = np.select([excellent_condition, good_condition, average_condition], ['Excellent', 'Good', 'Average'], default='Poor')
+```
+
+## Section 5: Data Visualization
+This section includes various data visualizations using seaborn and matplotlib to gain insights into  the distribution of different features and their relationship with the target variable.
+```
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Distribution plots for selected numerical columns
+column = ['How many hour do you study daily?', 'How many hour do you spent daily in social media?', 'Average attendance on class',\
+          'What was your previous SGPA?', 'What is your current CGPA?']
+for column_name in column:
+    sns.set(style="whitegrid")
+    plt.figure(figsize=(10, 6))
+
+    # Create a distribution plot
+    sns.distplot(df[column_name].dropna(), kde=False, bins=30, color='blue')
+
+    plt.xlabel(f'{column_name}')
+    plt.ylabel('Frequency')
+    plt.title(f'Distribution of {column_name}')
+    plt.show()
+```
+
+## Section 6: Data Export
+The preprocessed data is saved to a new CSV file for further analysis and modeling.
+```
+# Save the DataFrame to a new CSV file
+df.to_csv('/content/drive/MyDrive/Business_Automation_Task/new_preprocessed_data.csv', index=False)
+```
