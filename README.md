@@ -183,11 +183,10 @@ for column in columns_of_interest:
 
 print(df.shape)
 ```
-![CGPA_Outliers](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20What%20is%20your%20current%20CGPA_%20(With%20Outliers).jpg
-)
+![CGPA_Outliers](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20What%20is%20your%20current%20CGPA_%20(With%20Outliers).jpg)
 ![CGPA_without_outliers](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20What%20is%20your%20current%20CGPA_%20(Outliers%20Removed).jpg)
 ![SM_Outliers](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20How%20many%20hour%20do%20you%20spent%20daily%20in%20social%20media_%20(With%20Outliers).jpg)
-![SM_without_outliers]([https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20What%20is%20your%20current%20CGPA_%20(Outliers%20Removed).jpg](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20How%20many%20hour%20do%20you%20spent%20daily%20in%20social%20media_%20(Outliers%20Removed).jpg))
+![SM_without_outliers](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20What%20is%20your%20current%20CGPA_%20(Outliers%20Removed).jpg)
 ### Please see the data_exploration.ipynb file for details.
 
 ## Section 7: Data Export
