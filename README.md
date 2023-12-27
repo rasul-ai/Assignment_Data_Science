@@ -22,7 +22,7 @@ df = pd.read_csv(file_path)
 ## Section 2: Data Exploration
 This section provides a basic exploration of the dataset, including displaying the first few rows, providing basic information, and generating summary statistics.
 
-```
+```python
 # Displaying the first few rows of the dataset
 print("First few rows of the dataset:")
 print(df.head())
@@ -47,7 +47,7 @@ print(df.duplicated().sum())
 ## Section 3: Data Cleaning and Imputation
 This section handles missing values in the dataset. It imputes missing values in categorical columns with the mode and performs custom parsing and averaging for specific numerical columns. Additionally, it drops rows with missing values in specific columns.
 
-```
+```python
 # Impute missing values with the mode of each categorical column
 categorical_columns = ['Do you use University transportation?', 'What is your preferable learning mode?']
 df[categorical_columns] = df[categorical_columns].fillna(df[categorical_columns].mode().iloc[0])
@@ -77,7 +77,7 @@ df = df.dropna(subset=['Are you engaged with any co-curriculum activities?', 'Wh
 
 ## Section 4: Feature Engineering
 In this section, new columns are created based on specific conditions. The 'target' column is created to categorize students into different performance levels (Excellent, Good, Average, Poor).
-```
+```python
 import numpy as np
 
 excellent_condition = (df['How many hour do you study daily?'] >= 3.0) & (df['What is your current CGPA?'] >= 3.75) & \
@@ -98,7 +98,7 @@ df['target'] = np.select([excellent_condition, good_condition, average_condition
 
 ## Section 5: Data Visualization
 This section includes various data visualizations using seaborn and matplotlib to gain insights into  the distribution of different features and their relationship with the target variable.
-```
+```python
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -120,7 +120,7 @@ for column_name in column:
 
 ## Section 6: Data Export
 The preprocessed data is saved to a new CSV file for further analysis and modeling.
-```
+```python
 # Save the DataFrame to a new CSV file
 df.to_csv('/content/drive/MyDrive/Business_Automation_Task/new_preprocessed_data.csv', index=False)
 ```
