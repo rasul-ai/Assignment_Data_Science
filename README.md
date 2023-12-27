@@ -1,8 +1,8 @@
-# Business_Automation_Data_Science_Assignment - Data Exploration and Preprocessing
+# Business_Automation_Data_Science_Assignment - Data Exploration, Preprocessing and Model Training
 
 This repository represents an assignment for a part of job interview from Business Automation. BA has given me a dataset and asked to explore the data and do necessary preprocessing so that using this dataset anyone can classify students performance.In this file I am writing a brief description of my experiments and outcomes.
 
-**Author:** [Md Rasul Islam Bapary]
+**Author:** [Md Rasul Islam Bapary]  
 **Date:** [27.12.2023]
 
 ## This is my notebook structure.
@@ -13,7 +13,8 @@ Notebook Structure:
 3. Data Cleaning and Imputation
 4. Feature Engineering
 5. Data Visualization
-6. Data Export
+6. Outlier Detection
+7. Data Export
 ```
 
 ## Section 1: Data Loading
@@ -181,7 +182,7 @@ print(df.shape)
 ```
 ### Please see the data_exploration.ipynb file for details.
 
-## Section 6: Data Export
+## Section 7: Data Export
 Finally the preprocessed data is saved to a new CSV file for further analysis and modeling.
 ```python
 # Save the DataFrame to a new CSV file
