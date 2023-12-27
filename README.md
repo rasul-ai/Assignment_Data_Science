@@ -153,10 +153,6 @@ for column in df.columns:
 ```
 ## Section 6: Outlier Detection
 During doing the experiment of visualization I found that there are some columns which contains outlier values. For example CGPA or SGPA must be in between [2.0,4.0], but some values found above 5.0. That is why I checked all the columns if there is outlier present in them. Based on specific condition I removed outlier values. This reduces the dataset shape into (486,11).
-![CGPA_Outliers](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20What%20is%20your%20current%20CGPA_%20(With%20Outliers).jpg
-)
-![CGPA_without_outliers](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20What%20is%20your%20current%20CGPA_%20(Outliers%20Removed).jpg)
-
 
 ```python
 columns_of_interest = ['What was your previous SGPA?', 'What is your current CGPA?']
@@ -187,6 +183,12 @@ for column in columns_of_interest:
 
 print(df.shape)
 ```
+![CGPA_Outliers](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20What%20is%20your%20current%20CGPA_%20(With%20Outliers).jpg
+)
+![CGPA_without_outliers](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20What%20is%20your%20current%20CGPA_%20(Outliers%20Removed).jpg)
+![SM_Outliers](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20How%20many%20hour%20do%20you%20spent%20daily%20in%20social%20media_%20(With%20Outliers).jpg
+)
+![SM_without_outliers]([https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20What%20is%20your%20current%20CGPA_%20(Outliers%20Removed).jpg](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Boxplot%20of%20How%20many%20hour%20do%20you%20spent%20daily%20in%20social%20media_%20(Outliers%20Removed).jpg))
 ### Please see the data_exploration.ipynb file for details.
 
 ## Section 7: Data Export
