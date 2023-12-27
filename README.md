@@ -1,12 +1,23 @@
 # Business_Automation_Data_Science_Assignment - Data Exploration and Preprocessing
 
-This Jupyter notebook explores and preprocesses a dataset related to student performance. The dataset is loaded from a CSV file, and various data exploration and cleaning operations are performed.
+This repository represents an assignment for a part of job interview from Business Automation. BA has given me a dataset and asked to explore the data and do necessary preprocessing so that using this dataset anyone can classify students performance.In this file I am writing a brief description of my experiments and outcomes.
 
-**Author:** [Your Name]
-**Date:** [Date]
+**Author:** [Md Rasul Islam Bapary]
+**Date:** [27.12.2023]
+
+## This is my notebook structure.
+```
+Notebook Structure:
+1. Data Loading
+2. Data Exploration
+3. Data Cleaning and Imputation
+4. Feature Engineering
+5. Data Visualization
+6. Data Export
+```
 
 ## Section 1: Data Loading
-In this section, we mount Google Drive (if applicable) and load the dataset from a CSV file using pandas.
+In this section, I hve mounted Google Drive (if applicable) and load the dataset from a CSV file using pandas.
 
 ```python
 from google.colab import drive
@@ -20,7 +31,7 @@ df = pd.read_csv(file_path)
 ```
 
 ## Section 2: Data Exploration
-This section provides a basic exploration of the dataset, including displaying the first few rows, providing basic information, and generating summary statistics.
+This section provides a basic exploration of the dataset, including displaying the first few rows, providing basic information, shape of the dataset, generating summary statistics, counting missing values in each colum, checking the duplicate rows(if there is any). This information will help to understand the basic characteristics of a dataset.
 
 ```python
 # Displaying the first few rows of the dataset
@@ -34,6 +45,10 @@ print(df.info())
 # Displaying summary statistics
 print("\nSummary statistics of the dataset:")
 print(df.describe())
+
+# Dataset shape
+print("\nShape of the dataset:")
+print(df.shape)
 
 # Counting missing values in each column
 print("\nMissing values in each column:")
