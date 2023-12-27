@@ -19,11 +19,10 @@ file_path = '/content/drive/MyDrive/Business_Automation_Task/Students_Performanc
 df = pd.read_csv(file_path)
 ```
 
-
 ## Section 2: Data Exploration
 This section provides a basic exploration of the dataset, including displaying the first few rows, providing basic information, and generating summary statistics.
 
-python
+```
 # Displaying the first few rows of the dataset
 print("First few rows of the dataset:")
 print(df.head())
@@ -43,11 +42,11 @@ print(df.isnull().sum())
 # Check for duplicate values
 print("Duplicate rows in the dataset:")
 print(df.duplicated().sum())
-Section 3: Data Cleaning and Imputation
-This section handles missing values in the dataset. It imputes missing values in categorical columns with the mode and performs custom parsing and averaging for specific numerical columns. Additionally, it drops rows with missing values in specific columns.
+```
 
-python
-Copy code
+## Section 3: Data Cleaning and Imputation
+This section handles missing values in the dataset. It imputes missing values in categorical columns with the mode and performs custom parsing and averaging for specific numerical columns. Additionally, it drops rows with missing values in specific columns.
+```
 # Impute missing values with the mode of each categorical column
 categorical_columns = ['Do you use University transportation?', 'What is your preferable learning mode?']
 df[categorical_columns] = df[categorical_columns].fillna(df[categorical_columns].mode().iloc[0])
@@ -57,7 +56,6 @@ column = ['How many hour do you study daily?', 'How many hour do you spent daily
           'Average attendance on class', 'How many hour do you spent daily on your skill development?']
 
 def parse_and_average(value):
-    # Custom function to parse and average numeric values in a string
-    # ...
+    
+```
 
-# Continue with the remaining code for data cleaning and imputation
