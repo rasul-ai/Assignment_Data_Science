@@ -17,12 +17,13 @@ import pandas as pd
 # Load the data
 file_path = '/content/drive/MyDrive/Business_Automation_Task/Students_Performance_data_set.csv'
 df = pd.read_csv(file_path)
+```
 
-Section 2: Data Exploration
+
+## Section 2: Data Exploration
 This section provides a basic exploration of the dataset, including displaying the first few rows, providing basic information, and generating summary statistics.
 
 python
-Copy code
 # Displaying the first few rows of the dataset
 print("First few rows of the dataset:")
 print(df.head())
