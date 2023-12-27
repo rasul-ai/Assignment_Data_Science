@@ -5,6 +5,9 @@ This repository represents an assignment for a part of job interview from Busine
 **Author:** [Md Rasul Islam Bapary]  
 **Date:** [27.12.2023]
 
+# The Preprocessed dataset after EDA is looking like this.
+![Sample_dataset](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/Screenshot%20from%202023-12-27%2023-47-07.png)
+
 ## This is my notebook structure.
 ```
 Notebook Structure:
