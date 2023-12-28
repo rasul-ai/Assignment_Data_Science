@@ -318,9 +318,9 @@ for epoch in range(epochs):
 
 ## Section 4: Model Evaluation
 After training the neural network, I evaluated its performance on the test set. During evaluation I found there are some overfitting in the model training. I have tried to reduce them using Batch Normalization, Regularization technic like Dropout, Weight_Decay and Learning rate schedulers.
+![NN comparizon](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/NN%20comparison.png)
 
-
-## Comparison with Builtin Logistic Regression, Decision Tree, Random Forest
+### Comparison with Builtin Logistic Regression, Decision Tree, Random Forest
 ```python
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
@@ -342,9 +342,14 @@ rf_model = RandomForestClassifier(random_state=42)
 rf_model.fit(X_train, y_train)
 rf_preds = rf_model.predict(X_test)
 ```
+![NN with others](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/nn%20with%20others%20comparizon.png)
+
 
 ## Section 5: Model Visualization
 Here are some visualization image of the training and validation accuracy and loss over epochs for the neural network for some of the experiment.
+![Loss Curve](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/loss.png)
+![ROC curve](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/ROC_3NN.png)
+
 
 ## Section 6: Conclusion
 In conclusion, the model training process involved loading and preprocessing the dataset, building and training a three-layer neural network, and evaluating its performance on the test set. Additionally, I compared the results with traditional classifiers and visualized the training history of the neural network.
