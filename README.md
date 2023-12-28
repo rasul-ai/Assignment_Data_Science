@@ -200,11 +200,12 @@ df.to_csv('/content/drive/MyDrive/Business_Automation_Task/new_preprocessed_data
 ```
 
 
-odel Training Documentation
-In this section, I will provide a detailed documentation of the model training process for the student performance classification task. The goal is to build a classification model that predicts students' performance levels based on the preprocessed dataset. We will utilize a three-layer neural network as the primary model, and also compare its performance with other traditional classifiers such as Decision Tree (DT), Random Forest (RF), and Logistic Regression (LR).
-Section 1: Data Loading and Preprocessing
+# Model Training Documentation
+In this section, I am giving a detailed documentation of the model training process for the student performance classification task. The goal is to build a classification model that predicts students' performance levels based on the preprocessed dataset. I have created a three-layer neural network as the primary model, and also compare its performance with a two-layer neural network and other traditional classifiers such as Decision Tree (DT), Random Forest (RF), and Logistic Regression (LR). Here is the notebook structure,
+
+## Section 1: Data Loading and Preprocessing
 The model training process begins with loading the preprocessed dataset and preparing it for training.
-pythonCopy code
+```python
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, LabelEncoder
@@ -221,105 +222,132 @@ y = df['target']
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
 
-# Split the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.2, random_state=42)
-Section 2: Model Training - Neural Network
-Neural Network Architecture
-The neural network used for this classification task consists of three layers: an input layer with the number of neurons equal to the number of features, a hidden layer with 64 neurons and a ReLU activation function, and an output layer with four neurons (one for each performance level) and a softmax activation function.
-pythonCopy code
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+# Split the data into training, validation, and test sets
+X_train, X_temp, y_train, y_temp = train_test_split(X, y, test_size=0.3, random_state=15)
+X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=15)
 
-# Build the neural network model
-model = Sequential()
-model.add(Dense(64, input_dim=X_train.shape[1], activation='relu'))
-model.add(Dense(4, activation='softmax'))
+# Create DataLoader for training, validation, and test sets
+train_dataset = CustomDataset(X_train, y_train)
+val_dataset = CustomDataset(X_val, y_val)
+test_dataset = CustomDataset(X_test, y_test)
 
-# Compile the model
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+train_loader = DataLoader(train_dataset, batch_size=batch_size)
+val_loader = DataLoader(val_dataset, batch_size=batch_size)
+test_loader = DataLoader(test_dataset, batch_size=batch_size)
+```
 
-# Train the model
-history = model.fit(X_train, y_train, epochs=50, batch_size=32, validation_split=0.2, verbose=2)
-Section 3: Model Evaluation
-After training the neural network, we evaluate its performance on the test set. Additionally, we compare its results with other traditional classifiers: Decision Tree, Random Forest, and Logistic Regression.
-Neural Network Evaluation
-pythonCopy code
-# Evaluate the neural network on the test set
-test_loss, test_accuracy = model.evaluate(X_test, y_test)
-print(f'Neural Network - Test Loss: {test_loss}, Test Accuracy: {test_accuracy}')
-Traditional Classifiers Comparison
-pythonCopy code
+## Section 2: Neural Network Architecture
+The neural network that I used for this classification task consists of three layers: an input layer with the number of neurons equal to the number of features, a hidden layer with 64 neurons and a ReLU activation function, and an output layer with four neurons (one for each performance level) and a softmax activation function.
+```python
+class SimpleNN(nn.Module):
+    def __init__(self, input_size, hidden_size1, hidden_size2, output_size):
+        super(SimpleNN, self).__init__()
+        self.fc1 = nn.Linear(input_size, hidden_size1)
+        self.relu1 = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_size1, hidden_size2)
+        self.relu2 = nn.ReLU()
+        self.fc3 = nn.Linear(hidden_size2, output_size)
+        self.softmax = nn.Softmax(dim=1)
+
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.relu1(x)
+        x = self.fc2(x)
+        x = self.relu2(x)
+        x = self.fc3(x)
+        x = self.softmax(x)
+        return x
+```
+## Section 3: Model Training
+The hyperparameters that I used for model training consist of,
+```python
+Learning rate of 1e-3
+Epoch = 500
+Batch_size = 32
+```
+
+Here the training code,
+```python
+for epoch in range(epochs):
+    model.train()
+    t_loss = 0
+    correct_train = 0
+    total_train = 0
+
+    for inputs, labels in train_loader:
+
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
+        t_loss += loss.item()
+
+        _, predicted = torch.max(outputs.data, 1)
+        total_train += labels.size(0)
+        correct_train += (predicted == labels).sum().item()
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+    train_accuracy = correct_train / total_train
+
+    train_losses.append(t_loss / len(train_loader))
+
+    # Validation loop
+    model.eval()
+    v_loss = 0
+    correct_val = 0
+    total_val = 0
+
+    with torch.no_grad():
+        for inputs, labels in val_loader:
+            val_outputs = model(inputs)
+            val_loss = criterion(val_outputs, labels)
+            v_loss += val_loss.item()
+
+            _, predicted_val = torch.max(val_outputs.data, 1)
+            total_val += labels.size(0)
+            correct_val += (predicted_val == labels).sum().item()
+
+    val_accuracy = correct_val / total_val
+
+    val_losses.append(v_loss / len(val_loader))
+
+    print(f'Epoch {epoch + 1}/{epochs}, T_Accuracy: {train_accuracy * 100:.2f}%, V_Accuracy: {val_accuracy * 100:.2f}%,\
+     T_loss: {t_loss / len(train_loader):.4f}, V_loss: {v_loss / len(val_loader):.4f}')
+```
+
+## Section 4: Model Evaluation
+After training the neural network, I evaluated its performance on the test set. During evaluation I found there are some overfitting in the model training. I have tried to reduce them using Batch Normalization, Regularization technic like Dropout, Weight_Decay and Learning rate schedulers.
+
+
+## Comparison with Builtin Logistic Regression, Decision Tree, Random Forest
+```python
+from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, roc_curve, auc
+
+# Logistic Regression
+logreg_model = LogisticRegression(random_state=42, max_iter=500)
+logreg_model.fit(X_train, y_train)
+logreg_preds = logreg_model.predict(X_test)
 
 # Decision Tree
 dt_model = DecisionTreeClassifier(random_state=42)
 dt_model.fit(X_train, y_train)
-dt_predictions = dt_model.predict(X_test)
+dt_preds = dt_model.predict(X_test)
 
 # Random Forest
 rf_model = RandomForestClassifier(random_state=42)
 rf_model.fit(X_train, y_train)
-rf_predictions = rf_model.predict(X_test)
+rf_preds = rf_model.predict(X_test)
+```
 
-# Logistic Regression
-lr_model = LogisticRegression(random_state=42)
-lr_model.fit(X_train, y_train)
-lr_predictions = lr_model.predict(X_test)
+## Section 5: Model Visualization
+Here are some visualization image of the training and validation accuracy and loss over epochs for the neural network for some of the experiment.
 
-# Evaluate and compare the models
-def evaluate_model(model_name, predictions):
-    accuracy = accuracy_score(y_test, predictions)
-    precision = precision_score(y_test, predictions, average='weighted')
-    recall = recall_score(y_test, predictions, average='weighted')
-    f1 = f1_score(y_test, predictions, average='weighted')
-
-    print(f'{model_name} - Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}, F1 Score: {f1}')
-
-# Evaluate neural network
-evaluate_model('Neural Network', model.predict_classes(X_test))
-
-# Evaluate traditional classifiers
-evaluate_model('Decision Tree', dt_predictions)
-evaluate_model('Random Forest', rf_predictions)
-evaluate_model('Logistic Regression', lr_predictions)
-Section 4: Model Visualization
-Visualize the training and validation accuracy and loss over epochs for the neural network.
-pythonCopy code
-import matplotlib.pyplot as plt
-
-# Plot training history
-def plot_training_history(history):
-    plt.figure(figsize=(12, 6))
-
-    # Plot training & validation accuracy values
-    plt.subplot(1, 2, 1)
-    plt.plot(history.history['accuracy'])
-    plt.plot(history.history['val_accuracy'])
-    plt.title('Model Accuracy')
-    plt.xlabel('Epoch')
-    plt.ylabel('Accuracy')
-    plt.legend(['Train', 'Validation'], loc='upper left')
-
-    # Plot training & validation loss values
-    plt.subplot(1, 2, 2)
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('Model Loss')
-    plt.xlabel('Epoch')
-    plt.ylabel('Loss')
-    plt.legend(['Train', 'Validation'], loc='upper left')
-
-    plt.tight_layout()
-    plt.show()
-
-# Plot training history of the neural network
-plot_training_history(history)
-Section 5: Conclusion
-In conclusion, the model training process involved loading and preprocessing the dataset, building and training a three-layer neural network, and evaluating its performance on the test set. Additionally, we compared the results with traditional classifiers and visualized the training history of the neural network.
-The neural network showed promising results in terms of accuracy, precision, recall, and F1 score. The comparison with other classifiers provides insights into the effectiveness of different models for the given task. Further optimization and fine-tuning of hyperparameters could potentially enhance the performance of the models.
+## Section 6: Conclusion
+In conclusion, the model training process involved loading and preprocessing the dataset, building and training a three-layer neural network, and evaluating its performance on the test set. Additionally, I compared the results with traditional classifiers and visualized the training history of the neural network.
+The neural network showed promising results in terms of accuracy, precision, recall, and F1 score. The comparison with other classifiers provides insights into the effectiveness of different models for the given task and I found that Decission tree and Random Forest performs greatly over my custom neural network. Further optimization and fine-tuning of hyperparameters could potentially enhance the performance of the models.
 
 
