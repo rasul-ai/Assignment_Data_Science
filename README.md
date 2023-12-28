@@ -346,7 +346,8 @@ rf_preds = rf_model.predict(X_test)
 
 
 ## Section 5: Model Visualization
-Here are some visualization image of the training and validation accuracy and loss over epochs for the neural network for some of the experiment.
+Here are some visualization image of the training and validation accuracy and loss over epochs for the neural network for some of the experiment.The ROC curve of the 3-layer neural network also given below,
+
 ![Loss Curve](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/loss.png)
 ![ROC curve](https://github.com/rasul-ai/Assignment_Data_Science/blob/main/Images/ROC_3NN.png)
 
